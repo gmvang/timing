@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>timers</title>
+    <style type="text/css">
+    canvas {
+        background-color: rgb(40, 40, 40);
+        }
+        body{
+            background-color: rgb(40, 40, 40);
+        }
+            
+        h3{
+            text-align: center;
+            font-family: sans-serif;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+       
+    </style>
+    
+</head>
+
+<body>
+<!--    <h3>Set Interval</h3>-->
+    <canvas id="setInterval" width="0" height="0"></canvas>
+<!--    <h3>Set Timeout</h3>-->
+    <canvas id="setTimeout" width="0" height="0"></canvas>
+<!--    <h3>Request Animation Frame</h3>-->
+    <canvas id="raf" width="0" height="0"></canvas>
+    <h3>A goldfish like no other.</h3>
+   <div>
+    <canvas id="kb" width="800" height="500" 
+            style="position: absolute; left: 0; top: 1; z-index: 0;"></canvas>
+    <canvas id="fish" width="800" height="500"
+            style="position: absolute; left: 0; top: 1; z-index: 1;"></canvas>
+    </div>
+
+
+
+    <script type="text/javascript">
+
+    var ctx = document.getElementById('fish').getContext('2d');
+        
+   var goldFish = new Image();
+    goldFish.src = "goldFish.png";
+        
+    var goldFishL = new Image();
+    goldFishL.src = "goldFish_left.png"; 
+        
+    var facingLeft = false;
+    
+    var x1, x2, x3;
+    var y, w, h;
+    var speedX1, speedX2, speedX3;
+    var score1, score2, score3;
+    x1 = 0;
+    x2 = 0;
+    x3 = 0;
+    y = 10;
+    w = 72;
+    h = 80;
+    speedX1 = 20;
+    speedX2 = 20;
+    speedX3 = 20;
+    score1 = 0;
+    score2 = 0;
+    score3 = 0;
+    
+    var backgroundImg = new Image();
+    backgroundImg.src = "tankBG.jpg"
+    backgroundImg.addEventListener('load', startLoops, false);
+        
+    fish.style.left = "15%";
+    fish.style.top = "70px";
+    fish.style.position ="absolute";
+
+    function startLoops() {
+//        timeoutLoop();
+//        setInterval(intervalLoop, 1000 / 60);
+//        window.requestAnimationFrame(rafLoop);
+        window.requestAnimationFrame(keyLoop);
+    }
+
+    var xpos = 50;
+    var ypos = 50;
+    var left = false;
+    var right = false
+    var up = false;
+    var down = false;
+   
+    var goldFishL = new Image();
+        goldFishL.src = "goldFish_left.png"
+
+
+        /*----Keyboard----*/
+    window.addEventListener("keydown", kd, false);
+    window.addEventListener("keyup", ku, false);
+    document.getElementById('kb').focus();
+        
+        
+    function kd(e) {
+    	e.preventDefault();
+        switch (e.keyCode) {
+            case 37:
+                // left key pressed
+                left = true;
+                facingLeft = true;
+                break;
+            case 38:
+                // up key pressed
+                up = true;
+                break;
+            case 39:
+                // right key pressed
+                right = true;
+                facingLeft = false;
+                break;
+            case 40:
+                // down key pressed
+                down = true;
+                break;
+        }
+    }
+
+    function ku(e) {
+    	e.preventDefault();
+        switch (e.keyCode) {
+            case 37:
+                // left key pressed
+                left = false;
+                break;
+            case 38:
+                // up key pressed
+                up = false;
+                break;
+            case 39:
+                // right key pressed
+                right = false;
+                break;
+            case 40:
+                // down key pressed
+                down = false;
+                break;
+        }
+    }
+   
+
+    function keyLoop(e) {   
+        if (left) {
+            xpos -= 5;
+        }
+        if (right) {
+            xpos += 5;
+        }
+        if (up) {
+            ypos -= 5;
+        }
+        if (down) {
+            ypos += 5;
+        }
+        
+        ctx.clearRect(0, 0, 800, 500);
+        ctx.drawImage(backgroundImg, 0, -140);
+         
+        if (facingLeft == false) {
+        ctx.drawImage(goldFish, xpos, ypos, w, h);
+            }else{
+        ctx.drawImage(goldFishL, xpos, ypos, w, h);
+            }
+        window.requestAnimationFrame(keyLoop);
+    }  
+
+    
+    </script>
+</body>
+
+</html>
